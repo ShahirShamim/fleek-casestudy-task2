@@ -31,9 +31,19 @@ Based on a deep-dive analysis of Fleek's 167k recent signups, our CRM activation
 - **Nurturing the "Explorers" (US Market):** Since US users are window shoppers but have the highest GMV when they *do* buy ($650 average), we need to nurture them with inspiration. Send them weekly curated collections, trend reports, and "staff picks" to slowly pull them down the funnel.
 - **Removing Friction for High-Intent Buyers (FR/DE Market):** German and French users convert incredibly well but struggle to complete onboarding. We should deploy localized, native-language CRM campaigns for these regions immediately. Provide step-by-step onboarding guides in French and German to grease the wheels for these high-value cohorts.
 
+## Pillar 4: Post-Purchase Nurture (Driving True Activation)
+*Bridging the Gap Between First and Second Purchase*
+
+**The Problem:** We consider a user truly "Activated" only after their second purchase. Currently, 58.3% of users who make a first purchase never return for a second. This "one-and-done" cohort represents over £1.1M in lost potential GMV.
+**The Strategy:**
+- **The "First Win" Celebration:** Immediately after their first order is delivered, trigger a sequence celebrating their find and requesting a review/unboxing photo (building engagement).
+- **The Bounce-Back Offer:** 7 days after the first purchase, send a time-sensitive "Bounce-Back" discount code specifically for their second order to build the habit.
+- **Cross-Pollination:** If their first order was from a specific category (e.g., Vintage Tees), send them recommendations for complementary categories (e.g., Vintage Denim).
+
 ---
 
 ### Key Metrics to Monitor Over 90 Days:
 1. **Onboarding Completion Rate:** Aim to increase from 40% to 50%.
-2. **Day 0 - Day 3 Conversion Rate:** Aim to increase the percentage of onboarded users who buy within 72 hours.
-3. **Win-back Activation Rate:** Measure how many of the 58k dormant leads finish onboarding after receiving the new sequence.
+2. **First Purchase Rate (Day 0 - Day 3):** Aim to increase the percentage of onboarded users who buy within 72 hours.
+3. **True Activation Rate (Second Order Rate):** Aim to increase the percentage of first-time buyers who make a second purchase from 41.7% to 50%.
+4. **Win-back Activation Rate:** Measure how many of the 58k dormant leads finish onboarding after receiving the new sequence.

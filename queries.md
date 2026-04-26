@@ -545,3 +545,24 @@ France	9703	89.81
 Germany	5386	85.41
 United States	5272	94.65
 ```
+
+## 5. Deep Dive: True Activation (The Second Order)
+
+### A. First Purchase vs. Second Purchase Drop-off
+To quantify our "Leak 3", we need to see exactly how many users make a first purchase but fail to return for a second purchase.
+
+```sql
+SELECT 
+  COUNT(first_order_date) as users_with_first_order,
+  COUNT(second_order_date) as users_with_second_order,
+  COUNT(first_order_date) - COUNT(second_order_date) as one_and_done_users,
+  ROUND(COUNT(second_order_date) / COUNT(first_order_date) * 100, 2) as true_activation_rate_pct
+FROM `dogwood-baton-345622.fleek_marketing.case_study_activation_dataset`
+WHERE first_order_date IS NOT NULL;
+```
+
+**Output:**
+```text
+users_with_first_order	users_with_second_order	one_and_done_users	true_activation_rate_pct
+12154	5075	7079	41.76
+```

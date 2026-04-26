@@ -8,13 +8,13 @@ Based on the high-level summary of the `case_study_activation_dataset` (167,554 
 - **The Leak:** 99,743 users sign up but never finish onboarding.
 - **The Quantification:** This represents a massive **59.5% churn rate** before a user even sees the core product. Of these, 58,087 are email reachable. If we recovered just a conservative 5% of these reachable users (2,904 users) and they spent the average first-order value (£160), that is **~£464,000 in uncaptured early GMV**.
 
-### Leak 2: The "Window Shoppers" (Activation Drop-off)
+### Leak 2: The "Window Shoppers" (First Purchase Drop-off)
 - **The Leak:** 55,657 users complete onboarding but never make a purchase.
 - **The Quantification:** Out of 67,811 users who successfully finish setting up their accounts, only 12,154 go on to buy. This is an **82% drop-off rate for onboarded users**. The app is acquiring high-intent users, but failing to convert them to paying customers within the first crucial days.
 
-### Leak 3: The "One-and-Done" Buyers (Retention Drop-off)
-- **The Leak:** 7,079 buyers make their first purchase but never return for a second.
-- **The Quantification:** Out of 12,154 first-time buyers, only 5,075 (41.7%) make a repeat purchase. That means **58.3% of acquired buyers churn after one order**. Since the average first order value is ~£160, getting these 7,079 one-and-done users to make just *one* more average-sized purchase represents **over £1.13 Million in lost potential GMV**.
+### Leak 3: Activation Failure (The "One-and-Done" Buyers)
+- **The Leak:** 7,079 buyers make their first purchase but never return for a second (which is our definition of a fully "Activated" user).
+- **The Quantification:** Out of 12,154 first-time buyers, only 5,075 (41.7%) make a repeat purchase and become fully Activated. That means **58.3% of acquired buyers churn before reaching Activation**. Since the average first order value is ~£160, getting these 7,079 one-and-done users to make just *one* more average-sized purchase represents **over £1.13 Million in lost potential GMV**.
 
 ---
 
@@ -23,10 +23,10 @@ Based on the high-level summary of the `case_study_activation_dataset` (167,554 
 - **67,811 users (40%)** have completed onboarding.
 - **Insight:** The biggest immediate bottleneck in the funnel is getting users through the onboarding flow. If they don't onboard, they likely aren't browsing or buying. 
 
-## 2. Order Conversion is Low, but Repeat Rates are Decent
-- Only **12,154 users (7.2%)** have a `first_order_date`.
-- Of those who buy once, **5,075 users (41.7%)** go on to make a second order.
-- **Insight:** Once a buyer is activated, there is a relatively healthy chance they will buy again. The primary CRM focus should be getting that *first* purchase (and pushing them through onboarding to get there).
+## 2. Order Conversion is Low, and True Activation is Even Harder
+- Only **12,154 users (7.2%)** make a first order.
+- Of those who buy once, only **5,075 users (41.7%)** go on to make a second order (True Activation).
+- **Insight:** Getting the first purchase is difficult, but the real challenge is driving them to the second order. The CRM strategy must focus not just on the first purchase, but heavily on the post-purchase nurture to drive that critical second sale.
 
 ## 3. Communication Channels
 - **Email is strong:** 120,244 users (72%) are email reachable.
