@@ -1,17 +1,6 @@
 # Case Study: Bridging the Web-to-App Activation Gap
 
-## 1. Executive Summary
-This case study outlines a strategic, data-driven CRM initiative designed to activate ~58,000 "ghost" users who registered via the web but failed to install the mobile app. Because onboarding is exclusively handled within the app, these users are currently stranded. By leveraging highly targeted, personalized email campaigns—incorporating localized LLM-generated hooks and dynamic product recommendations via internal APIs—this initiative aims to bridge the web-to-app gap. The project is underpinned by a rigorous, four-cohort A/B testing framework to ensure any resulting lift in Gross Merchandise Value (GMV) is definitively causal rather than merely correlational.
-
-## 2. The Business Challenge
-The core problem is a structural disconnect in the user acquisition funnel:
-
-*   **Massive Churn Volume:** Data reveals that 59.5% of all signups (99,743 users) drop off before completing the onboarding process. 
-*   **The Reachability Reality (The Push Notification Paradox):** Because onboarding is app-exclusive, these users have not downloaded the app. Consequently, their mobile Push Notification (PN) and In-App Message reachability is structurally 0%. We cannot send a push notification to download an app they do not have.
-*   **The Email Bridge:** Email is the *only* viable, owned channel to reach this audience. Fortunately, because email was captured during the initial web registration, we have valid `is_email_reachable = true` addresses for ~58,000 of these abandoned users.
-*   **The "Fresh Leads" Opportunity:** Over 24,000 of these reachable users signed up in just the last 6 weeks. The brand is still fresh in their minds. Recovering just 5% of this specific segment could yield an estimated £464,000 in early GMV.
-
-## 3. The Solution: Dynamic, Data-Driven Activation
+## 1. The Solution: Dynamic, Data-Driven Activation
 To re-engage this audience, we developed a personalized email push campaign utilizing a rich dataset.
 
 **Audience Definition:**
@@ -25,7 +14,7 @@ Target users are strictly those where `onboarding_completed = false` AND `is_ema
 **The Message Framework:**
 The primary CTA is a direct link to the App Store / Google Play Store. To overcome the high friction of downloading a new mobile app, we are pushing the existing £20 financial incentive on their first app order.
 
-## 4. Rigorous Experimental Design (A/B Testing)
+## 2. Rigorous Experimental Design (A/B Testing)
 To accurately measure the causal impact of the campaign and the financial viability of the £20 incentive, the 58,000 users will be divided into four distinct experimental cohorts:
 
 1.  **Global Control (10% - Holdout):** Does not receive any CRM push. This establishes the absolute baseline for organic, unprompted app downloads and onboarding.
@@ -36,7 +25,7 @@ To accurately measure the causal impact of the campaign and the financial viabil
 **Statistical Rigor:** 
 Detecting a 15% relative uplift over a ~5.2% organic baseline with 80% statistical power and a 95% confidence interval requires ~17,400 users per treatment. We will send exactly 52,200 emails over a structured 5-day period, followed by a strict 14-day observation window, before declaring a winner.
 
-## 5. Technical Architecture & Automation Pipeline
+## 3. Technical Architecture & Automation Pipeline
 The campaign is orchestrated by a fully automated daily CRON job that creates a closed-loop data pipeline:
 
 1.  **Target Isolation & Cohort Assignment:** The script isolates users who signed up in the past 24 hours (who haven't onboarded) and randomly assigns them to one of the four cohorts.
@@ -45,7 +34,7 @@ The campaign is orchestrated by a fully automated daily CRON job that creates a 
 4.  **Delivery via Resend:** The script renders the HTML templates and dispatches the emails via the Resend API, scheduling delivery to exactly +24 Hours from the user's initial signup time.
 5.  **State Logging:** Pushes user details, cohort assignments, and sent payloads into a dedicated BigQuery tracking table (`crm_activation_log`).
 
-## 6. Measurement, Guardrails & Causal Inference
+## 4. Measurement, Guardrails & Causal Inference
 The daily CRON job loops back to update BigQuery records with downstream conversion events, creating a real-time feedback loop.
 
 **Core KPIs:**
