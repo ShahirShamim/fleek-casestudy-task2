@@ -86,11 +86,11 @@ To rigorously evaluate the success of the CRM Activation Initiative, the daily C
 ### Tracking Schema: `crm_activation_log`
 Every time the daily pipeline runs, it inserts a record into the tracking table for the user. Subsequent CRON runs update the downstream columns (`app_installed`, `first_order_placed`, etc.) when the events occur.
 
-| `user_id` | `assigned_cohort` | `locale` | `sent_at` | `email_opened` | `link_clicked` | `app_installed` | `first_order_placed` | `gmv_first_order` |
+| `user_id` | `assigned_cohort` | `locale` | `sent_at` | `email_opened_at` | `link_clicked_at` | `app_installed` | `first_order_placed` | `gmv_first_order` |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| `1288` | `group_a` | `FR` | `2024-05-15 14:00:00` | `TRUE` | `TRUE` | `TRUE` | `TRUE` | `£125.00` |
-| `1492` | `group_b` | `EN` | `2024-05-15 16:30:00` | `TRUE` | `FALSE` | `FALSE` | `FALSE` | `£0.00` |
-| `9881` | `active_control` | `DE` | `2024-05-16 09:15:00` | `FALSE` | `FALSE` | `FALSE` | `FALSE` | `£0.00` |
+| `1288` | `group_a` | `FR` | `2024-05-15 14:00:00` | `2024-05-15 14:15:22` | `2024-05-15 14:18:05` | `TRUE` | `TRUE` | `£125.00` |
+| `1492` | `group_b` | `EN` | `2024-05-15 16:30:00` | `2024-05-15 18:45:10` | `NULL` | `FALSE` | `FALSE` | `£0.00` |
+| `9881` | `active_control` | `DE` | `2024-05-16 09:15:00` | `NULL` | `NULL` | `FALSE` | `FALSE` | `£0.00` |
 | `1021` | `global_control` | `EN` | `NULL` | `NULL` | `NULL` | `TRUE` | `FALSE` | `£0.00` |
 
 ### Initiative Reporting: Cohort Evaluation
