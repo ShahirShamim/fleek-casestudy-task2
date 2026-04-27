@@ -78,9 +78,9 @@ To rigorously evaluate the success of the CRM Activation Initiative, the daily C
 
 ### Key Performance Indicators (KPIs)
 
-*   **Primary Metric:** App Install / Onboarding Rate (Percentage of targeted users who successfully initiate and complete the onboarding flow).
-*   **Secondary Metric:** 7-Day First-Order Conversion Rate (Percentage of targeted users who make their first purchase within 7 days of receiving the email).
-*   **Tertiary Metric:** Incremental Gross Merchandise Value (GMV) per User (Average revenue driven per cohort vs. baseline).
+*   **Primary Metric (Activation):** The percentage of targeted users who successfully initiate and complete the in-app onboarding flow (transitioning from web-signup to fully active app user).
+*   **Secondary Metric (Time to First Purchase):** The average or median duration (in hours/days) between the email delivery timestamp and the user completing their first order. Shorter times indicate higher intent capture.
+*   **Tertiary Metric (Marginal Revenue Per User):** The incremental Gross Merchandise Value (GMV) generated per user in the experimental cohort minus the baseline GMV of the Global Control, factored against the cost of the £20 promo code liability.
 *   **Counter/Guardrail Metric:** Email Unsubscribe & Complaint Rate (Ensuring we are not burning our user base with overly aggressive outreach).
 
 ### Tracking Schema: `crm_activation_log`
