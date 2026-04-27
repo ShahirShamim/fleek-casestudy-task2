@@ -566,3 +566,42 @@ WHERE first_order_date IS NOT NULL;
 users_with_first_order	users_with_second_order	one_and_done_users	true_activation_rate_pct
 12154	5075	7079	41.76
 ```
+
+## 6. Execution: App Install Push Target Extraction & Product Recommendation
+This query isolates the unonboarded, email-reachable users (the 58k cohort) and simply assigns 4 random active products to each user to populate the dynamic product recommendation blocks in their CRM email.
+
+```sql
+WITH target_users AS (
+  SELECT 
+    user_id
+  FROM `dogwood-baton-345622.fleek_marketing.case_study_activation_dataset`
+  WHERE onboarding_completed = false 
+    AND is_email_reachable = true
+),
+
+active_products AS (
+  SELECT product_id
+  FROM `dogwood-baton-345622.fleek_analytics.product_details_v2`
+  WHERE is_active = true 
+    AND available_quantity > 0
+)
+
+SELECT 
+  t.user_id,
+  ARRAY(
+    SELECT product_id 
+    FROM active_products 
+    ORDER BY RAND() 
+    LIMIT 4
+  ) AS recommended_product_ids
+FROM target_users t;
+```
+
+**Output:** *(Sample from `user_products.csv`)*
+```csv
+user_id,recommended_product_ids
+1288,"[9238217097454,9215123554542,9166330429678,9236195868910]"
+452,"[9238217097454,9215123554542,9166330429678,9236195868910]"
+1171,"[9238217097454,9215123554542,9166330429678,9236195868910]"
+... (58k rows)
+``````

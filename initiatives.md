@@ -2,11 +2,11 @@
 
 This document outlines the three core CRM initiatives to drive buyer activation. Any updates to the scope, content, or monitoring of these initiatives should be recorded here.
 
-## 1. Onboarding Email Reachables
-**Objective:** Recover users who dropped off during the onboarding flow and guide them to complete their setup.
+## 1. Onboarding Email Reachables (App Install Push)
+**Objective:** Drive app downloads and initial logins. Since onboarding happens exclusively in the app, these users have likely signed up via web but failed to install the mobile app.
 
 ### Why This Makes Sense (Data Rationale)
-- **Massive Churn:** 59.5% of all signups (99,743 users) drop off before completing onboarding, making it the single biggest leak in the funnel.
+- **Massive Churn:** 59.5% of all signups (99,743 users) drop off before completing onboarding. Because onboarding is app-only, this represents a massive gap between web signups and app installs.
 - **High Reachability:** We have valid email addresses for 58,087 of these abandoned users, providing a direct and free channel to win them back.
 - **Fresh Leads:** Over 24,000 of these unonboarded, reachable users signed up in just the last 6 weeks (Jan-Feb 2026), meaning the brand is still fresh in their minds. Recovering just 5% of this segment could yield ~£464,000 in early GMV.
 
@@ -19,10 +19,10 @@ This document outlines the three core CRM initiatives to drive buyer activation.
   - `product_recommendations` based on purchases by similar users (segment users based on their `user_intent`, `reselling_platform`, `has_existing_store`, `region`)
 
 ### Possible Content
-- **Subject Lines:** "You're one step away from joining Fleek!", "Finish setting up your store profile."
+- **Subject Lines:** "Download the Fleek app to start sourcing", "Your wholesale vintage access is waiting."
 - **Body:** 
   - Remind them of the value proposition (access to wholesale vintage).
-  - Deep link directly to the specific screen they abandoned.
+  - **Core CTA:** A prominent, direct link to the App Store / Google Play Store to download the app.
   - *Localized Variants:* For FR/DE, assure them about local shipping or translate the email to native languages. For the US, emphasize the ease of exploring the catalog.
 
 ### Content Channels

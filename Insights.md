@@ -72,3 +72,4 @@ We now have a complete picture of the funnel:
 2. **The Window:** We have ~3 days to convert them once they do onboard.
 3. **The Goldmine:** 58k highly reachable, relatively fresh leads sitting in the unonboarded bucket.
 4. **The Nuance:** The US has high intent to explore but low intent to buy; FR/DE have friction in onboarding but convert well once through.
+

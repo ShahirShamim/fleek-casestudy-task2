@@ -1,0 +1,82 @@
+# App Install Push (Initiative 1)
+
+**Objective:** Drive app downloads and initial logins. Since onboarding happens exclusively in the app, these users have likely signed up via web but failed to install the mobile app.
+
+## 1. Why This Makes Sense (Data Rationale)
+- **Massive Churn:** 59.5% of all signups (99,743 users) drop off before completing onboarding. Because onboarding is app-only, this represents a massive gap between web signups and app installs.
+- **High Reachability:** We have valid email addresses for 58,087 of these abandoned users, providing a direct and free channel to win them back.
+- **Fresh Leads:** Over 24,000 of these unonboarded, reachable users signed up in just the last 6 weeks (Jan-Feb 2026), meaning the brand is still fresh in their minds. Recovering just 5% of this segment could yield ~£464,000 in early GMV.
+
+## 2. Data Scope & Audience
+- **Target Audience:** Users with `onboarding_completed = false` AND `is_email_reachable = true`.
+- **Audience Size:** ~58,000 users.
+- **Personalization Data:** 
+  - `country` (if available, ~60k have this) for localization (e.g., French/German translations).
+  - `signup_date` to segment by freshness (prioritize the ~24k users from the last 6 weeks).
+  - `product_recommendations` based on purchases by similar users (segment users based on their `user_intent`, `reselling_platform`, `has_existing_store`, `region`).
+
+## 3. Content & Channels
+- **Primary Channel:** Email (since they are verified `is_email_reachable`).
+
+### Message Framework
+- **Subject Lines:** "Download the Fleek app to start sourcing", "Your wholesale vintage access is waiting."
+- **Body Content:** 
+  - Remind them of the value proposition (access to wholesale vintage).
+  - **Core CTA:** A prominent, direct link to the App Store / Google Play Store to download the app.
+  - *Localized Variants:* For FR/DE, assure them about local shipping or translate the email to native languages. For the US, emphasize the ease of exploring the catalog.
+
+## 4. Monitoring Outcomes
+- **Primary KPI:** Onboarding Completion Rate (aiming to increase the baseline 40%).
+- **Secondary KPIs:** Email Open Rate, Click-Through Rate, and Cost per Reactivation.
+- **Company Metric Linkage:** 
+  - **CAC Efficiency:** By reactivating users who have already been acquired (marketing spend is already sunk), any converted user dramatically lowers the blended Customer Acquisition Cost (CAC).
+  - **Pipeline GMV:** Moving users out of the "ghost" phase directly expands the addressable audience for future revenue.
+
+---
+
+## 5. Execution Plan & A/B Testing
+To rigorously measure the impact of dynamic personalization versus a straightforward incentive (£20 off first app order), we will divide the ~58,000 target users into four distinct cohorts.
+
+### Cohort Split & Email Delivery
+- **Standard Timing:** For new signups, a single email will be triggered exactly **+24 Hours** after web registration.
+- **Fresh Leads Catch-up:** For the ~24k existing fresh leads, the email will be sent on the first available date. The specific delivery time will be dynamically assigned based on the median ordering time of similar converting customers.
+
+The content varies by cohort:
+
+1. **Global Control (10% - Holdout):** Does not receive this CRM push. This establishes the baseline organic app download and onboarding completion rate.
+2. **Active Control - Value Prop Only (30%):** 
+   - **Content:** Standard reminder to download the app to access wholesale vintage. 
+   - **Details:** NO mention of a discount, NO product imagery. Just the core value proposition and app store links.
+3. **Group A - Incentive + Product Recs (30%):** 
+   - **Content:** Core incentive (£20 off first app order) *plus* a random assortment of active product recommendations.
+   - **Details:** Highlights the £20 offer prominently, followed by a randomized visual catalog of 4 active products to showcase inventory breadth without complex targeting.
+4. **Group B - Incentive Only (30%):** 
+   - **Content:** Core incentive (£20 off first app order) without any specific product imagery.
+   - **Details:** Text/banner heavily focused on the £20 off offer and the App Store CTA. NO catalogue distractions.
+
+### Experiment Hypothesis
+We expect both Group A and Group B to significantly outperform the Active Control in Click-Through-to-Install rates due to the financial incentive. The core questions this test seeks to answer are:
+1. **Baseline Uplift:** How much does an active email push (Active Control) lift install rates over doing nothing (Global Control)?
+2. **Incentive Impact:** How much does the £20 discount (Groups A & B) lift conversion over a standard reminder (Active Control)?
+3. **Catalogue vs. Focused Offer (Group A vs Group B):** Does visualizing the actual vintage inventory alongside the discount bridge the intent gap, or is the user overwhelmed/distracted by the catalogue being present at this early stage?
+
+## 6. Technical Architecture (Cron & Data Pipeline)
+To fully automate this campaign, we will implement a daily CRON job that orchestrates the segmentation, assignment, and tracking lifecycle.
+
+### Daily Processing (Every Morning)
+1. **Target Isolation:** The script isolates users who signed up in the past 24 hours but have not yet installed the app/onboarded.
+2. **Cohort Assignment:** These isolated users are randomly assigned to one of the four experimental cohorts (Global Control, Active Control, Group A, Group B).
+3. **Product Matching & API Hydration:** Users assigned to receive products are dynamically matched with product IDs using "closest match" logic. The script then immediately hits the internal Fleek Product API (e.g., `GET /api/v1/products?ids=...`) to "hydrate" those raw IDs with live image URLs, product names, and pricing, ensuring no out-of-stock items are pushed.
+4. **Dynamic Localization & News Injection:** The script fetches the latest country-specific news headlines regarding fashion, sustainability, vintage clothing, or Vinted selling. An LLM step generates a personalized, dynamic introductory hook and translates the email copy into the user's native language (e.g., French for FR, German for DE).
+5. **Template Rendering:** The script injects the hydrated product data and localized LLM copy into the designated HTML template (Group A, Group B, or Active Control) for that user.
+6. **Email Delivery via Resend:** As the final outbound step, the script dispatches the fully rendered HTML email payloads via the **Resend API**, scheduling the delivery to perfectly match the user's initial signup time (e.g., a 2:00 PM signup receives the email exactly at 2:00 PM the following day).
+7. **State Logging:** The script pushes the user details, cohort assignment, product IDs, and generated email content payloads into a dedicated tracking table in BigQuery.
+
+### Daily Performance Sync
+In addition to scheduling new sends, the daily CRON job loops back over users who have previously received the campaign and updates their BigQuery records with downstream conversion events:
+- `datetime_onboarding_initiated` and `datetime_onboarding_completed`
+- `datetime_first_order`
+- `gmv_first_order`
+- `first_order_channel`
+
+This creates a closed-loop data pipeline that automatically tracks our A/B test results and directly monitors the GMV and CAC efficiency of the initiative in near real-time.
