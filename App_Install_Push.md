@@ -4,7 +4,7 @@
 
 ## 1. Why This Makes Sense (Data Rationale)
 - **Massive Churn:** 59.5% of all signups (99,743 users) drop off before completing onboarding. Because onboarding is app-only, this represents a massive gap between web signups and app installs.
-- **High Reachability:** We have valid email addresses for 58,087 of these abandoned users, providing a direct and free channel to win them back.
+- **The Reachability Reality (Email vs. Push Notifications):** At this specific stage in the funnel, the user has signed up via the web but has *not* completed onboarding (which is app-exclusive). This means they likely have not downloaded the app, making their mobile Push Notification (PN) reachability essentially 0%. We cannot send them an in-app message or a push notification to download the app they haven't installed yet. However, because their email was captured during the initial web registration step, we have valid `is_email_reachable` addresses for 58,087 of these abandoned users. Email is the *only* viable, owned channel to bridge the gap between web-signup and app-installation. Once activated and onboarded, we can request PN permissions and transition them to push notifications for downstream retention, but for this initial activation push, email is structurally mandatory.
 - **Fresh Leads:** Over 24,000 of these unonboarded, reachable users signed up in just the last 6 weeks (Jan-Feb 2026), meaning the brand is still fresh in their minds. Recovering just 5% of this segment could yield ~£464,000 in early GMV.
 
 ## 2. Data Scope & Audience
