@@ -72,11 +72,35 @@ To fully automate this campaign, we will implement a daily CRON job that orchest
 6. **Email Delivery via Resend:** As the final outbound step, the script dispatches the fully rendered HTML email payloads via the **Resend API**, scheduling the delivery to perfectly match the user's initial signup time (e.g., a 2:00 PM signup receives the email exactly at 2:00 PM the following day).
 7. **State Logging:** The script pushes the user details, cohort assignment, product IDs, and generated email content payloads into a dedicated tracking table in BigQuery.
 
-### Daily Performance Sync
-In addition to scheduling new sends, the daily CRON job loops back over users who have previously received the campaign and updates their BigQuery records with downstream conversion events:
-- `datetime_onboarding_initiated` and `datetime_onboarding_completed`
-- `datetime_first_order`
-- `gmv_first_order`
-- `first_order_channel`
+## 7. Monitoring & Tracking Success Metrics
 
-This creates a closed-loop data pipeline that automatically tracks our A/B test results and directly monitors the GMV and CAC efficiency of the initiative in near real-time.
+To rigorously evaluate the success of the CRM Activation Initiative, the daily CRON job loops back over users who have previously received the campaign and updates their BigQuery records with downstream conversion events. This creates a closed-loop data pipeline that automatically tracks our A/B test results and monitors GMV and CAC efficiency in near real-time.
+
+### Key Performance Indicators (KPIs)
+
+*   **Primary Metric:** App Install / Onboarding Rate (Percentage of targeted users who successfully initiate and complete the onboarding flow).
+*   **Secondary Metric:** 7-Day First-Order Conversion Rate (Percentage of targeted users who make their first purchase within 7 days of receiving the email).
+*   **Tertiary Metric:** Incremental Gross Merchandise Value (GMV) per User (Average revenue driven per cohort vs. baseline).
+*   **Counter/Guardrail Metric:** Email Unsubscribe & Complaint Rate (Ensuring we are not burning our user base with overly aggressive outreach).
+
+### Tracking Schema: `crm_activation_log`
+Every time the daily pipeline runs, it inserts a record into the tracking table for the user. Subsequent CRON runs update the downstream columns (`app_installed`, `first_order_placed`, etc.) when the events occur.
+
+| `user_id` | `assigned_cohort` | `locale` | `sent_at` | `email_opened` | `link_clicked` | `app_installed` | `first_order_placed` | `gmv_first_order` |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| `1288` | `group_a` | `FR` | `2024-05-15 14:00:00` | `TRUE` | `TRUE` | `TRUE` | `TRUE` | `£125.00` |
+| `1492` | `group_b` | `EN` | `2024-05-15 16:30:00` | `TRUE` | `FALSE` | `FALSE` | `FALSE` | `£0.00` |
+| `9881` | `active_control` | `DE` | `2024-05-16 09:15:00` | `FALSE` | `FALSE` | `FALSE` | `FALSE` | `£0.00` |
+| `1021` | `global_control` | `EN` | `NULL` | `NULL` | `NULL` | `TRUE` | `FALSE` | `£0.00` |
+
+### Initiative Reporting: Cohort Evaluation
+Success is measured by comparing the cumulative performance of each cohort against the `global_control` (baseline organic behavior) and the `active_control` (baseline email behavior).
+
+| Cohort | Targeted Users | Install Rate | 7-Day Order Rate | Unsubscribe Rate | Incremental GMV / User |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **Global Control** (No Email) | 10,000 | 5.2% | 1.8% | N/A | baseline |
+| **Active Control** (Value Prop) | 10,000 | 8.5% | 2.5% | 0.8% | + £1.20 |
+| **Group A** (Incentive + Recs) | 10,000 | **14.2%** | **4.9%** | 1.1% | **+ £3.85** |
+| **Group B** (Incentive Only) | 10,000 | 12.8% | 3.2% | 0.9% | + £2.50 |
+
+**Evaluation Criteria:** If Group A or Group B yields a statistically significant uplift in Incremental GMV / User that offsets the cost of the £20 incentive, the winning variant will be promoted to the default onboarding flow for all new Web-Signup users.
