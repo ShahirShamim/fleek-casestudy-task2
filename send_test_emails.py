@@ -1,5 +1,6 @@
 import os
 import sys
+import time
 import resend
 from dotenv import load_dotenv
 
@@ -83,6 +84,29 @@ def main():
             print(f"❌ Failed to send {filename}: {e}")
 
     print(f"\nFinished sending. Successfully dispatched {success_count}/{len(files)} test emails.")
+
+    print("\n" + "="*40)
+    print("🎬 CRON PIPELINE SIMULATION 🎬")
+    print("="*40)
+    
+    steps = [
+        "Fetching Random User",
+        "Retrieving Localisation Context",
+        "Prompting Gemma4 to create copy",
+        "Populating email templates with JSON",
+        "Wrapping things up",
+        "Sending emails"
+    ]
+    
+    for step in steps:
+        sys.stdout.write(f"\r\033[K⏳ {step}...")
+        sys.stdout.flush()
+        time.sleep(0.5)
+        sys.stdout.write(f"\r\033[K✅ {step} [DONE]\n")
+        sys.stdout.flush()
+        
+    time.sleep(0.5)
+    print("🚀 Emails Sent!\n")
 
 if __name__ == "__main__":
     main()
