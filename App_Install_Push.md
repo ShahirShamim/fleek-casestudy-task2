@@ -81,7 +81,11 @@ To rigorously evaluate the success of the CRM Activation Initiative, the daily C
 *   **Primary Metric (Activation):** The percentage of targeted users who successfully initiate and complete the in-app onboarding flow (transitioning from web-signup to fully active app user).
 *   **Secondary Metric (Time to First Purchase):** The average or median duration (in hours/days) between the email delivery timestamp and the user completing their first order. Shorter times indicate higher intent capture.
 *   **Tertiary Metric (Marginal Revenue Per User):** The incremental Gross Merchandise Value (GMV) generated per user in the experimental cohort minus the baseline GMV of the Global Control, factored against the cost of the £20 promo code liability.
-*   **Counter/Guardrail Metric:** Email Unsubscribe & Complaint Rate (Ensuring we are not burning our user base with overly aggressive outreach).
+### Guardrails & Counter Metrics
+To ensure this activation strategy doesn't negatively impact long-term brand equity or audience health, we will closely monitor:
+*   **Unsubscribe & Complaint Rate:** Tracking if the £20 incentive or the rapid 24-hour cadence causes a statistically significant spike in spam complaints or opt-outs compared to the Active Control.
+*   **Email Fatigue (Frequency Impact):** Monitoring whether receiving this early activation push cannibalizes the open and click rates of downstream, organic marketing emails (e.g., measuring 30-day email engagement post-activation).
+*   **Long-Term Retention Degradation:** Tracking the 90-day active purchasing behavior of users activated via the £20 incentive. If Group A and B users churn immediately after exhausting the promotional credit (indicating low LTV), the initial MRPU gains are illusory, and the incentive strategy must be re-evaluated.
 
 ### Tracking Schema: `crm_activation_log`
 Every time the daily pipeline runs, it inserts a record into the tracking table for the user. Subsequent CRON runs update the downstream columns (`app_installed`, `first_order_placed`, etc.) when the events occur.
