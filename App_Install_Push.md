@@ -11,7 +11,7 @@
 - **Target Audience:** Users with `onboarding_completed = false` AND `is_email_reachable = true`.
 - **Audience Size:** ~58,000 users.
 - **Personalization Data:** 
-  - `country` (if available, ~60k have this) for localization (e.g., French/German translations).
+  - `country` (if available, ~45k have this) for localization (e.g., French/German translations).
   - `signup_date` to segment by freshness (prioritize the ~24k users from the last 6 weeks).
   - `product_recommendations` based on purchases by similar users (segment users based on their `user_intent`, `reselling_platform`, `has_existing_store`, `region`).
 
@@ -63,7 +63,7 @@ We expect both Group A and Group B to significantly outperform the Active Contro
 ### Statistical Considerations & Test Duration
 To ensure our findings are robust and not subject to random variance, the experiment is governed by strict statistical parameters:
 *   **Sample Size & MDE:** With a baseline organic install rate of ~5.2%, detecting a 15% relative uplift with 80% statistical power and a 95% confidence interval requires approximately **17,400 users per treatment cohort**. Given our 58,000 reachable audience and the 10/30/30/30 cohort split, this means we will send exactly **52,200 total emails** (while holding out 5,800 users for the Global Control) before we can declare a statistically significant winner. We will not halt the test prematurely until this sample threshold is met.
-*   **Test Duration:** Given our daily signup volume and the required sample size per cohort, we estimate it will take exactly 14 to 21 days of continuous cohort accumulation to reach statistical significance. The test will run strictly for this pre-calculated duration to avoid the "peeking problem."
+*   **Test Duration:** Because we are targeting an existing backlog of 58,000 users, we do not need to wait weeks for cohort accumulation. We will dispatch the 52,200 emails over a structured 5-day period (to ensure deliverability and protect domain reputation), followed by a strict 14-day observation window to capture the "Time to First Purchase" conversion cycle.
 *   **Confidence Intervals:** When reporting final results to leadership (e.g., "+ £3.85 Incremental GMV / User"), all core metrics will be presented alongside 95% Confidence Intervals (e.g., +£3.85 ± £0.42). This accurately reflects the margin of error and the certainty of the financial uplift before we permanently alter the default Web-to-App onboarding flow.
 
 ## 6. Technical Architecture (Cron & Data Pipeline)
@@ -108,10 +108,10 @@ Success is measured by comparing the cumulative performance of each cohort again
 
 | Cohort | Targeted Users | Install Rate | 7-Day Order Rate | Unsubscribe Rate | Incremental GMV / User |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| **Global Control** (No Email) | 10,000 | 5.2% | 1.8% | N/A | baseline |
-| **Active Control** (Value Prop) | 10,000 | 8.5% | 2.5% | 0.8% | + £1.20 |
-| **Group A** (Incentive + Recs) | 10,000 | **14.2%** | **4.9%** | 1.1% | **+ £3.85** |
-| **Group B** (Incentive Only) | 10,000 | 12.8% | 3.2% | 0.9% | + £2.50 |
+| **Global Control** (No Email) | 5,800 | 5.2% | 1.8% | N/A | baseline |
+| **Active Control** (Value Prop) | 17,400 | 8.5% | 2.5% | 0.8% | + £1.20 |
+| **Group A** (Incentive + Recs) | 17,400 | **14.2%** | **4.9%** | 1.1% | **+ £3.85** |
+| **Group B** (Incentive Only) | 17,400 | 12.8% | 3.2% | 0.9% | + £2.50 |
 
 **Evaluation Criteria:** If Group A or Group B yields a statistically significant uplift in Incremental GMV / User that offsets the cost of the £20 incentive, the winning variant will be promoted to the default onboarding flow for all new Web-Signup users.
 
