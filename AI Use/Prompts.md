@@ -1199,11 +1199,11 @@ Is there any other piece of the case study you'd like to refine or move on to?
 
 ### User Input
 
-create a script called send_test_emails which takes asks for an email address and sends all the htmls in @[test_emails]to the user with the subject conatining the cohort and localisation for each. Use the Resend api to do this and place my api token which is re_cuh3t8SF_FCdBj18VhGRMvCGLdk9iPUfS
+create a script called send_test_emails which takes asks for an email address and sends all the htmls in @[test_emails]to the user with the subject conatining the cohort and localisation for each. Use the Resend api to do this and place my api token which is 
 This is how that looks 
 import resend
 
-resend.api_key = "re_cuh3t8SF_FCdBj18VhGRMvCGLdk9iPUfS"
+resend.api_key = ""
 
 r = resend.Emails.send({
   "from": "onboarding@resend.dev",
@@ -1387,7 +1387,7 @@ if not api_key:
 
 You are completely safe to push this to GitHub now! If you ever need to run it again locally, you can just do:
 ```bash
-RESEND_API_KEY="re_cuh3t8SF_FCdBj18VhGRMvCGLdk9iPUfS" echo "shahir15314@gmail.com" | python3 send_test_emails.py
+RESEND_API_KEY="" echo "shahir15314@gmail.com" | python3 send_test_emails.py
 ```
 
 Is there anything else you want to polish for the case study before wrapping up?
