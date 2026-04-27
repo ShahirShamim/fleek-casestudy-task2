@@ -108,3 +108,10 @@ Success is measured by comparing the cumulative performance of each cohort again
 | **Group B** (Incentive Only) | 10,000 | 12.8% | 3.2% | 0.9% | + £2.50 |
 
 **Evaluation Criteria:** If Group A or Group B yields a statistically significant uplift in Incremental GMV / User that offsets the cost of the £20 incentive, the winning variant will be promoted to the default onboarding flow for all new Web-Signup users.
+
+### Addressing Correlation vs. Causation
+In CRM and lifecycle marketing, it is notoriously easy to confuse correlation (e.g., "users who open emails tend to buy more") with causation ("the email *caused* them to buy more"). This tracking architecture explicitly solves for causal inference through strict Randomized Controlled Trial (RCT) principles:
+
+1. **Isolating Organic Behavior (The Global Control):** By deliberately holding out 25% of the target audience to receive absolutely nothing, we establish the baseline organic activation rate. Many users who sign up on the web will eventually download the app naturally. Subtracting this baseline from our treatment groups ensures we only report *truly incremental*, causal lift, rather than taking credit for organic intent.
+2. **Isolating the Incentive Effect (The Active Control):** Simply sending *any* email will cause a spike in activity due to brand recall. By comparing Groups A & B against the Active Control (which receives a generic reminder email), we isolate the exact causal impact of the £20 incentive and product recommendations. This proves whether sacrificing margin is actually necessary, or if a simple reminder would have achieved the same result.
+3. **Randomized Assignment:** Because users are randomly assigned to these cohorts at the exact time of isolation, all confounding variables (e.g., innate high-intent vs. low-intent users, demographics, weekend vs. weekday signups) are distributed equally across all four groups. Therefore, any statistically significant variance in MRPU between the cohorts is mathematically proven to be *caused* by the specific email variant they received.
