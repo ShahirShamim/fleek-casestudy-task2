@@ -60,9 +60,9 @@ We expect both Group A and Group B to significantly outperform the Active Contro
 2. **Incentive Impact:** How much does the £20 discount (Groups A & B) lift conversion over a standard reminder (Active Control)?
 3. **Catalogue vs. Focused Offer (Group A vs Group B):** Does visualizing the actual vintage inventory alongside the discount bridge the intent gap, or is the user overwhelmed/distracted by the catalogue being present at this early stage?
 
-### Statistical Rigor & Test Duration
+### Statistical Considerations & Test Duration
 To ensure our findings are robust and not subject to random variance, the experiment is governed by strict statistical parameters:
-*   **Sample Size & MDE:** With a baseline organic install rate of ~5.2%, detecting a 15% relative uplift with 80% statistical power and a 95% confidence interval requires approximately **14,500 users per cohort**. Across our 4 cohorts, this means we must accumulate and send roughly **58,000 total emails** before we can declare a statistically significant winner. We will not halt the test prematurely until this sample threshold is met.
+*   **Sample Size & MDE:** With a baseline organic install rate of ~5.2%, detecting a 15% relative uplift with 80% statistical power and a 95% confidence interval requires approximately **17,400 users per treatment cohort**. Given our 58,000 reachable audience and the 10/30/30/30 cohort split, this means we will send exactly **52,200 total emails** (while holding out 5,800 users for the Global Control) before we can declare a statistically significant winner. We will not halt the test prematurely until this sample threshold is met.
 *   **Test Duration:** Given our daily signup volume and the required sample size per cohort, we estimate it will take exactly 14 to 21 days of continuous cohort accumulation to reach statistical significance. The test will run strictly for this pre-calculated duration to avoid the "peeking problem."
 *   **Confidence Intervals:** When reporting final results to leadership (e.g., "+ £3.85 Incremental GMV / User"), all core metrics will be presented alongside 95% Confidence Intervals (e.g., +£3.85 ± £0.42). This accurately reflects the margin of error and the certainty of the financial uplift before we permanently alter the default Web-to-App onboarding flow.
 
