@@ -49,4 +49,4 @@ To protect long-term brand equity, we monitor Counter Metrics including **Unsubs
 In CRM, correlation is easily confused with causation. This architecture proactively mitigates several deep measurement challenges:
 *   **Isolating the Incentive:** By comparing Groups A & B against the Active Control, we measure the *exact* causal impact of the £20 margin sacrifice, proving if a free reminder would have worked just as well.
 *   **Holdout Contamination Risk:** Recognizing that users in the Global Control might still receive paid retargeting ads (Meta/Google), which could artificially inflate the baseline.
-*   **Cross-Channel Attribution Conflicts:** Relying on deterministic, server-side tracking (`crm_activation_log` via `user_id`) to bypass probabilistic, device-level "last click" attribution wars in third-party platforms like AppsFlyer.
+*   **Cross-Channel Attribution Conflicts:** Relying on deterministic, server-side tracking (`crm_activation_log` via `user_id`) to bypass probabilistic, device-level "last click" attribution wars.
