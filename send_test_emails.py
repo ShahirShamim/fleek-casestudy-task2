@@ -86,7 +86,7 @@ def main():
     print(f"\nFinished sending. Successfully dispatched {success_count}/{len(files)} test emails.")
 
     print("\n" + "="*40)
-    print("🎬 CRON PIPELINE SIMULATION 🎬")
+    print("🎬 CRON PIPELINE 🎬")
     print("="*40)
     
     steps = [
