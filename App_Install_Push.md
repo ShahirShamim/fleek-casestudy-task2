@@ -11,7 +11,7 @@
 - **Target Audience:** Users with `onboarding_completed = false` AND `is_email_reachable = true`.
 - **Audience Size:** ~58,000 users.
 - **Personalization Data:** 
-  - `country` (if available, ~45k have this) for localization (e.g., French/German translations).
+  - `country` (if available, ~45k have this) for localization (e.g., French/German translations). For users with no country or missing data, the UK will be used as the default.
   - `signup_date` to segment by freshness (prioritize the ~24k users from the last 6 weeks).
   - `product_recommendations` based on purchases by similar users (segment users based on their `user_intent`, `reselling_platform`, `has_existing_store`, `region`).
 

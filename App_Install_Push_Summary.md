@@ -7,7 +7,7 @@ To re-engage this audience, we developed a personalized email push campaign util
 Target users are strictly those where `onboarding_completed = false` AND `is_email_reachable = true`.
 
 **Personalization Engine:**
-*   **Dynamic Localization:** Utilizing `country` data, we localize the outreach. For users in FR/DE, we translate copy and assure them of local shipping. For the US, we emphasize catalog depth.
+*   **Dynamic Localization:** Utilizing `country` data, we localize the outreach. For users in FR/DE, we translate copy and assure them of local shipping. For the US, we emphasize catalog depth. For users with missing country or metadata, the UK will be used as the default fallback.
 *   **LLM Hooks:** A dynamic opening sentence is generated via an LLM, pulling in current regional fashion trends or sustainability news to capture immediate attention.
 *   **Intent-Based Recommendations:** Utilizing data points like `user_intent`, `reselling_platform`, and `has_existing_store`, we match users with products purchased by similar cohorts.
 
