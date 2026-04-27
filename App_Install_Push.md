@@ -60,6 +60,12 @@ We expect both Group A and Group B to significantly outperform the Active Contro
 2. **Incentive Impact:** How much does the £20 discount (Groups A & B) lift conversion over a standard reminder (Active Control)?
 3. **Catalogue vs. Focused Offer (Group A vs Group B):** Does visualizing the actual vintage inventory alongside the discount bridge the intent gap, or is the user overwhelmed/distracted by the catalogue being present at this early stage?
 
+### Statistical Rigor & Test Duration
+To ensure our findings are robust and not subject to random variance, the experiment is governed by strict statistical parameters:
+*   **Sample Size & MDE:** With a baseline organic install rate of ~5.2%, detecting a meaningful relative uplift with 80% statistical power and a 95% confidence level requires a substantial sample size. We have calculated our required **Minimum Detectable Effect (MDE)** threshold based on our available historical audience of ~58,000 users to ensure we do not end the test prematurely.
+*   **Test Duration:** Given our daily signup volume and the required sample size per cohort, we estimate it will take exactly 14 to 21 days of continuous cohort accumulation to reach statistical significance. The test will run strictly for this pre-calculated duration to avoid the "peeking problem."
+*   **Confidence Intervals:** When reporting final results to leadership (e.g., "+ £3.85 Incremental GMV / User"), all core metrics will be presented alongside 95% Confidence Intervals (e.g., +£3.85 ± £0.42). This accurately reflects the margin of error and the certainty of the financial uplift before we permanently alter the default Web-to-App onboarding flow.
+
 ## 6. Technical Architecture (Cron & Data Pipeline)
 To fully automate this campaign, we will implement a daily CRON job that orchestrates the segmentation, assignment, and tracking lifecycle.
 
@@ -116,8 +122,4 @@ In CRM and lifecycle marketing, it is notoriously easy to confuse correlation (e
 2. **Isolating the Incentive Effect (The Active Control):** Simply sending *any* email will cause a spike in activity due to brand recall. By comparing Groups A & B against the Active Control (which receives a generic reminder email), we isolate the exact causal impact of the £20 incentive and product recommendations. This proves whether sacrificing margin is actually necessary, or if a simple reminder would have achieved the same result.
 3. **Randomized Assignment:** Because users are randomly assigned to these cohorts at the exact time of isolation, all confounding variables (e.g., innate high-intent vs. low-intent users, demographics, weekend vs. weekday signups) are distributed equally across all four groups. Therefore, any statistically significant variance in MRPU between the cohorts is mathematically proven to be *caused* by the specific email variant they received.
 
-### Statistical Rigor & Test Duration
-To ensure our findings are robust and not subject to random variance, the experiment is governed by strict statistical parameters:
-*   **Sample Size & MDE:** With a baseline organic install rate of ~5.2%, detecting a meaningful relative uplift with 80% statistical power and a 95% confidence level requires a substantial sample size. We have calculated our required **Minimum Detectable Effect (MDE)** threshold based on our available historical audience of ~58,000 users to ensure we do not end the test prematurely.
-*   **Test Duration:** Given our daily signup volume and the required sample size per cohort, we estimate it will take exactly 14 to 21 days of continuous cohort accumulation to reach statistical significance. The test will run strictly for this pre-calculated duration to avoid the "peeking problem."
-*   **Confidence Intervals:** When reporting final results to leadership (e.g., "+ £3.85 Incremental GMV / User"), all core metrics will be presented alongside 95% Confidence Intervals (e.g., +£3.85 ± £0.42). This accurately reflects the margin of error and the certainty of the financial uplift before we permanently alter the default Web-to-App onboarding flow.
+
