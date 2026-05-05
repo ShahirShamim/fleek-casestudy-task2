@@ -7,6 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
     <style>
         :root {
             --bg-color: #0f172a;
@@ -187,46 +188,141 @@
         .loading .spinner {
             display: inline-block;
         }
+
+        /* NEW CSS */
+        .container {
+            transition: max-width 0.4s ease;
+        }
+        .container.wide {
+            max-width: 900px;
+        }
+        /* Removed Tabs CSS */
+        .sim-controls {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .step-card {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+            display: none;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        .step-card.visible {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .step-header {
+            margin-bottom: 15px;
+        }
+        .step-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--primary);
+            margin: 0 0 5px 0;
+        }
+        .step-desc {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin: 0;
+        }
+        .code-blocks {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .code-block {
+            background: #050505;
+            border-radius: 10px;
+            padding: 30px 15px 15px 15px;
+            font-family: monospace;
+            font-size: 13px;
+            color: #a5b4fc;
+            overflow-x: auto;
+            position: relative;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .code-block pre {
+            margin: 0 !important;
+            padding: 0 !important;
+            background: transparent !important;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            text-shadow: none !important;
+        }
+        .code-block code {
+            font-family: inherit;
+            color: inherit;
+            text-shadow: none !important;
+        }
+        .code-label {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 4px 10px;
+            border-bottom-left-radius: 8px;
+            font-size: 11px;
+            color: var(--text-muted);
+            font-family: 'Outfit', sans-serif;
+            border-top-right-radius: 10px;
+            font-weight: 500;
+        }
     </style>
 </head>
 <body>
-    <div class="container">
+    <div class="container" id="mainContainer">
         <h1>Fleek CRM Activation</h1>
-        <p class="subtitle">Test your email campaigns dynamically</p>
+        <p class="subtitle" id="mainSubtitle">Test your email campaigns dynamically</p>
 
-        <form id="emailForm">
-            <div class="form-group">
-                <label for="cohort">Cohort</label>
-                <select id="cohort" required>
-                    <option value="" disabled selected>Select a cohort...</option>
-                    {% for cohort in cohorts %}
-                    <option value="{{ cohort }}">{{ cohort.replace('_', ' ').title() }}</option>
-                    {% endfor %}
-                </select>
+        <div id="tester-view" style="display: block; animation: fadeIn 0.4s ease;">
+            <form id="emailForm">
+                <div class="form-group">
+                    <label for="cohort">Cohort</label>
+                    <select id="cohort" required>
+                        <option value="" disabled selected>Select a cohort...</option>
+                        {% for cohort in cohorts %}
+                        <option value="{{ cohort }}">{{ cohort.replace('_', ' ').title() }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="region">Region / Language</label>
+                    <select id="region" required>
+                        <option value="" disabled selected>Select a region...</option>
+                        {% for region in regions %}
+                        <option value="{{ region }}">{{ region }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Destination Email</label>
+                    <input type="email" id="email" placeholder="you@example.com" required>
+                </div>
+
+                <button type="submit" id="submitBtn">
+                    <span class="btn-text">Send Test Email & Simulate Backend</span>
+                    <div class="spinner"></div>
+                </button>
+            </form>
+            <div id="statusMessage" class="message"></div>
+        </div>
+
+        <div id="simulator-view" style="display: none; animation: fadeIn 0.4s ease;">
+            <div id="simulationSteps">
+                <!-- Steps injected here via JS -->
             </div>
-
-            <div class="form-group">
-                <label for="region">Region / Language</label>
-                <select id="region" required>
-                    <option value="" disabled selected>Select a region...</option>
-                    {% for region in regions %}
-                    <option value="{{ region }}">{{ region }}</option>
-                    {% endfor %}
-                </select>
+            <div class="sim-controls" style="margin-top: 30px;">
+                <button id="resetBtn" onclick="resetView()" style="max-width: 250px; margin: 0 auto; background: rgba(255,255,255,0.1); box-shadow: none;">Start Again</button>
             </div>
-
-            <div class="form-group">
-                <label for="email">Destination Email</label>
-                <input type="email" id="email" placeholder="you@example.com" required>
-            </div>
-
-            <button type="submit" id="submitBtn">
-                <span class="btn-text">Send Test Email</span>
-                <div class="spinner"></div>
-            </button>
-        </form>
-
-        <div id="statusMessage" class="message"></div>
+        </div>
     </div>
 
     <script>
@@ -260,19 +356,140 @@
                 if (response.ok && data.success) {
                     messageEl.className = 'message success';
                     messageEl.textContent = '🚀 ' + data.message;
+                    
+                    // Proceed to simulation view after slight delay to let user see success message
+                    setTimeout(() => {
+                        startSimulationView(cohort, region, email);
+                    }, 1000);
                 } else {
                     messageEl.className = 'message error';
                     messageEl.textContent = '❌ ' + (data.message || 'Something went wrong');
+                    btn.classList.remove('loading');
+                    btn.disabled = false;
                 }
             } catch (error) {
                 messageEl.style.display = 'block';
                 messageEl.className = 'message error';
                 messageEl.textContent = '❌ Connection error';
-            } finally {
                 btn.classList.remove('loading');
                 btn.disabled = false;
             }
         });
+
+        function startSimulationView(cohort, region, email) {
+            document.getElementById('tester-view').style.display = 'none';
+            document.getElementById('simulator-view').style.display = 'block';
+            
+            const container = document.getElementById('mainContainer');
+            container.classList.add('wide');
+            document.getElementById('mainSubtitle').textContent = "Visualizing the backend data pipeline";
+            
+            // Auto run simulation
+            runSimulation(cohort, region, email);
+        }
+
+        function resetView() {
+            document.getElementById('simulator-view').style.display = 'none';
+            document.getElementById('tester-view').style.display = 'block';
+            
+            const container = document.getElementById('mainContainer');
+            container.classList.remove('wide');
+            document.getElementById('mainSubtitle').textContent = "Test your email campaigns dynamically";
+            
+            // Reset state
+            document.getElementById('simulationSteps').innerHTML = '';
+            document.getElementById('statusMessage').style.display = 'none';
+            document.getElementById('submitBtn').classList.remove('loading');
+            document.getElementById('submitBtn').disabled = false;
+        }
+
+        function getLanguage(content) {
+            content = content.trim();
+            if (content.startsWith('{') || content.startsWith('[')) return 'json';
+            if (content.toUpperCase().startsWith('SELECT') || content.toUpperCase().startsWith('INSERT')) return 'sql';
+            if (content.startsWith('POST') || content.startsWith('GET')) return 'http';
+            return 'javascript';
+        }
+
+        async function runSimulation(cohort, region, email) {
+            const container = document.getElementById('simulationSteps');
+            const resetBtn = document.getElementById('resetBtn');
+            
+            resetBtn.disabled = true;
+            resetBtn.textContent = 'Running Simulation...';
+            container.innerHTML = "";
+
+            try {
+                const res = await fetch('/api/simulate', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ cohort, region, email })
+                });
+                const steps = await res.json();
+
+                for (let i = 0; i < steps.length; i++) {
+                    const step = steps[i];
+                    
+                    const card = document.createElement('div');
+                    card.className = 'step-card';
+                    
+                    let reqLang = getLanguage(step.request);
+                    let resLang = getLanguage(step.response);
+
+                    card.innerHTML = `
+                        <div class="step-header">
+                            <h3 class="step-title">${step.title}</h3>
+                            <p class="step-desc">${step.description}</p>
+                        </div>
+                        <div class="code-blocks">
+                            <div class="code-block">
+                                <span class="code-label">API Request</span>
+                                <pre><code class="language-${reqLang}">${escapeHtml(step.request)}</code></pre>
+                            </div>
+                            <div class="code-block">
+                                <span class="code-label">JSON Response</span>
+                                <pre><code class="language-${resLang}">${escapeHtml(step.response)}</code></pre>
+                            </div>
+                        </div>
+                    `;
+                    
+                    container.appendChild(card);
+                    
+                    if (window.Prism) {
+                        Prism.highlightAllUnder(card);
+                    }
+                    
+                    // Trigger reflow for animation
+                    void card.offsetWidth;
+                    card.classList.add('visible');
+                    
+                    // Wait before showing next step to simulate processing
+                    if (i < steps.length - 1) {
+                        await new Promise(r => setTimeout(r, 1200));
+                    }
+                }
+                
+                resetBtn.disabled = false;
+                resetBtn.textContent = 'Start Again';
+            } catch (e) {
+                resetBtn.disabled = false;
+                resetBtn.textContent = 'Simulation Failed - Start Again';
+                console.error(e);
+            }
+        }
+
+        function escapeHtml(unsafe) {
+            return unsafe
+                 .replace(/&/g, "&amp;")
+                 .replace(/</g, "&lt;")
+                 .replace(/>/g, "&gt;")
+                 .replace(/"/g, "&quot;")
+                 .replace(/'/g, "&#039;");
+        }
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-http.min.js"></script>
 </body>
 </html>
